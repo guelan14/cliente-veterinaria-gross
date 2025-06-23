@@ -1,0 +1,11 @@
+{
+  "build": {
+    "env": {
+      "DATABASE_URL": "@database_url",
+      "DIRECT_URL": "@direct_url"
+    }
+  },
+  "installCommand": "pnpm install && pnpm prisma generate && pnpm prisma migrate deploy",
+  "buildCommand": "pnpm build",
+  "outputDirectory": ".next"
+}

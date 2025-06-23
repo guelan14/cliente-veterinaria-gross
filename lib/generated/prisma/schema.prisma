@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model ServicioClinico {
+  id          Int    @id @default(autoincrement())
+  titulo      String
+  descripcion String
+  imagen      String
+}
+
+model Seccion {
+  id      Int      @id @default(autoincrement())
+  slug    String   @unique // Ej: 'inicio', 'nosotros', 'productos-servicios'
+  nombre  String // Ej: 'Página de Inicio'
+  bloques Bloque[]
+}
+
+model Bloque {
+  id        Int     @id @default(autoincrement())
+  tipo      String // 'texto' | 'imagen' | 'icono' | 'titulo'
+  clave     String // Ej: 'hero-titulo', 'sobre-nosotros-p1', etc.
+  contenido String // Texto, URL de imagen o nombre del ícono
+  orden     Int // Para ordenar la visualización
+  seccionId Int
+  seccion   Seccion @relation(fields: [seccionId], references: [id])
+}

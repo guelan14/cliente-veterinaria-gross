@@ -1,0 +1,109 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model ServicioClinico {
+  id          Int    @id @default(autoincrement())
+  titulo      String
+  descripcion String
+  imagen      String
+}
+
+model NuestroServicio {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+  icon        String
+}
+
+model RazonElegirnos {
+  id          Int    @id @default(autoincrement())
+  titulo      String
+  descripcion String
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  category    String
+  image       String   // Imagen principal
+  description String
+  images      Image[]  // Relación con tabla Image
+}
+
+model Image {
+  id        Int     @id @default(autoincrement())
+  url       String
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model  InformacionGeneral {
+  id          Int      @id @default(autoincrement())
+  historia    String
+  imagen      String      // Imagen de la historia
+  mision      String
+  vision      String
+  valores     Valor[]      // Relación 1:N
+}
+
+model Valor {
+  id                    Int                 @id @default(autoincrement())
+  titulo                String
+  descripcion           String
+  informacionGeneralId  Int
+  informacionGeneral    InformacionGeneral  @relation(fields: [informacionGeneralId], references: [id], onDelete: Cascade)
+}
+
+model Trayectoria {
+  id          Int    @id @default(autoincrement())
+  anio        Int    // Año del hito
+  titulo      String
+  descripcion String
+  imagen      String
+}
+
+model Miembro {
+  id     Int    @id @default(autoincrement())
+  nombre String
+  cargo  String
+  foto   String
+}
+
+model Mascota {
+  id            Int              @id @default(autoincrement())
+  nombre        String
+  edad          String
+  genero        String
+  descripcion   String
+  personalidad  String
+  salud         String
+  requisitos    String
+  imagenes      ImagenMascota[] // plural aquí, porque es una lista
+}
+
+model ImagenMascota {
+  id        Int     @id @default(autoincrement())
+  url       String
+  mascotaId Int
+  mascota   Mascota @relation(fields: [mascotaId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id           Int     @id @default(autoincrement())
+  username     String  @unique
+  passwordHash String
+}
+
+model SobreNosotrosBreve {
+  id          Int      @id @default(autoincrement())
+  titulo      String
+  descripcion String
+  imagenUrl   String
+  imagenAlt   String?   // texto alternativo para accesibilidad, opcional
+}
